@@ -1,0 +1,93 @@
+// ---this sets up the tables for the database
+
+CREATE TABLE djs (
+    name VARCHAR(255) PRIMARY KEY UNIQUE,
+    city VARCHAR(255),
+    record_label VARCHAR(255)
+);
+
+CREATE TABLE genre (
+    dj_name VARCHAR(255) REFERENCES djs(name),
+    genre VARCHAR(255)
+);
+
+CREATE TABLE releases (
+    title VARCHAR(255),
+    genre_category VARCHAR(255),
+    record_label VARCHAR(255)
+);
+
+CREATE TABLE clubs_played (
+    dj_name VARCHAR(255) REFERENCES djs(name),
+    club VARCHAR(255),
+    PRIMARY KEY (dj_name, club)
+);
+
+CREATE TABLE clubs (
+    club_name VARCHAR(255),
+    city VARCHAR(255),
+    PRIMARY KEY (club_name)
+);
+
+
+
+
+// ---this inserts data on djs and clubs
+
+INSERT INTO djs (name, city, record_label)
+VALUES ('Dax J', 'Berlin', 'Monnom Black');
+
+INSERT INTO djs (name, city, record_label)
+VALUES ('Sama Abdulhadi', 'Paris', 'Dif');
+
+INSERT INTO djs (name, city, record_label)
+VALUES ('Julia Govor', 'New York', 'Jujuka');
+
+INSERT INTO genre (dj_name, genre)
+VALUES ('Dax J', 'Techno');
+
+INSERT INTO genre (dj_name, genre)
+VALUES ('Sama Abdulhadi', 'Techno');
+
+INSERT INTO genre (dj_name, genre)
+VALUES ('Julia Govor', 'Techno');
+
+INSERT INTO releases (title, genre_category, record_label)
+VALUES ('Alone Together', 'Techno', 'Jujuka');
+
+INSERT INTO clubs_played (dj_name, club)
+VALUES ('Dax J', 'Berghain');
+
+INSERT INTO clubs_played (dj_name, club)
+VALUES ('Dax J', 'Basement');
+
+INSERT INTO clubs_played (dj_name, club)
+VALUES ('Sama Abdulhadi', 'Elsewhere');
+
+INSERT INTO clubs_played (dj_name, club)
+VALUES ('Sama Abdulhadi', 'Fabric');
+
+INSERT INTO clubs_played (dj_name, club)
+VALUES ('Julia Govor', 'Elsewhere');
+
+INSERT INTO clubs (club_name, city)
+VALUES ('Berghain', 'Berlin');
+
+INSERT INTO clubs (club_name, city)
+VALUES ('Basement', 'New York');
+
+INSERT INTO clubs (club_name, city)
+VALUES ('Elsewhere', 'New York');
+
+INSERT INTO clubs (club_name, city)
+VALUES ('Fabric', 'London');
+
+
+// ---this is a query to find out which cities a dj played in
+
+SELECT clubs_played.dj_name AS "DJ", clubs.city AS "Cities Played"
+FROM clubs_played
+INNER JOIN clubs ON clubs_played.club = clubs.club_name
+WHERE clubs_played.dj_name = 'Sama Abdulhadi'
+ORDER BY 1,2;
+
